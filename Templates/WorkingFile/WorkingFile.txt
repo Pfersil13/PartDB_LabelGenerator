@@ -1,0 +1,40 @@
+# Template: 80x40mm 200dpi
+# Label Type: Storage_location
+# Width: 80
+# Height: 40
+# Resolution (dpmm): 8
+# Storage Location BoxWidth: 240
+# Name Rows: 1
+# Number of parts: 3
+^XA
+~TA000
+~JSN
+^LT0
+^MNW
+^MTD
+^PON
+^PMN
+^LH0,0
+^JMA
+^PR3,3
+~SD10
+^JUS
+^LRN
+^CI27
+^PA0,1,1,0
+^MMT
+^PW550
+^LL200
+^LS0
+
+^FX (Caja)
+^FO0,10^GB400,200,3^FS
+^FT15,130^BQN,2,3
+^FH\^FDLA,http://192.168.1.87:8080/en/store_location/2/parts^FS
+^FT113,60^A0N,30,30^FB267,1,10,L^FH\^CI28^FDLDOs^FS^CI27
+
+^FT122,100^A0N,20,20^FH\^CI28^FD- NCP1117LPST18T3G^FS^CI27
+^FT122,130^A0N,20,20^FH\^CI28^FD- ADP1712AUJZ-3.3-R7^FS^CI27
+^FT122,160^A0N,20,20^FH\^CI28^FD- NCP1117IST33T3G^FS^CI27
+
+^XZ

@@ -656,7 +656,7 @@ class smallPartDb():
         junk = []
         partsbyStorage = []
         id = self.lookupStorage(storage)
-        print(id)
+        # print(id)
         while (True):
             params = {'page': p, 'itemsPerPage': size, 'storage_location': id}
             r = self.r.get(url, params=params)
