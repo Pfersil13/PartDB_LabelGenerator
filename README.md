@@ -25,8 +25,13 @@ Might be a little annoying to organize  each drawer on PartDb but the creation o
 
     
 # To DO
- - CMD
- - Add custom labels
+ - CMD app
+ - Add more labels templates
+   
+       Part Label
+       Storage Label
+       Part Lot
+  
  - Change label size
- - Label Preview
+ - Imoprove label Preview
    
