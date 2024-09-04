@@ -18,7 +18,9 @@ partDb = smallPartDb.smallPartDb(settings['host'], settings['token'])
 
 class LabelType():
 
-
+    def is_a_file_name(self):
+        # To DO
+        return None
     def search_and_replace(self, file_path, search_word, replace_word):
         with open(file_path, 'r') as file:
             file_contents = file.read()
