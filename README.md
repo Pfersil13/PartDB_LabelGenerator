@@ -34,4 +34,5 @@ Might be a little annoying to organize  each drawer on PartDb but the creation o
   
  - Change label size
  - Imoprove label Preview
+ - Add settings option
    
