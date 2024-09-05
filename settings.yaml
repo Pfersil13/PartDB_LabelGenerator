@@ -1,4 +1,4 @@
 {
-    token : " tcp_b147de8f8154b63b41239ead3e965362ed4cf61b271fda548d44c91fbc8360ff",
-    host : "192.168.1.87:8080"
+  token: "tcp_b147de8f8154b63b41239ead3e965362ed4cf61b271fda548d44c91fbc8360ff" ,
+  host : "192.168.1.87:8080"
 }

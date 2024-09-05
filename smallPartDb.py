@@ -115,8 +115,11 @@ class smallPartDb():
         self.getInfo()
 
     def __str__(self):
+        if self.info == "Error":
+            return "Error"
         if self.info is not None:
             return "Connected to " + self.info['title'] + ", Version: " + self.info['version'] + " on " + str(self.host)
+
 
     def getInfo(self):
         url = self.endpoint.info.format()
@@ -124,8 +127,9 @@ class smallPartDb():
         if r.status_code == 200:
             self.info = json.loads(r.text)
         else:
-            self.info = None
-            raise RuntimeError("unable to get info")
+            print("Wrong token")
+            self.info = "Error"
+            # raise RuntimeError("unable to get info")
         return r
 
     def getCategories(self):
@@ -656,6 +660,8 @@ class smallPartDb():
         junk = []
         partsbyStorage = []
         id = self.lookupStorage(storage)
+        if id == None:
+            return None
         # print(id)
         while (True):
             params = {'page': p, 'itemsPerPage': size, 'storage_location': id}
