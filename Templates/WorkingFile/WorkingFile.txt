@@ -1,16 +1,8 @@
-# Template: 80x40mm 200dpi
-# Label Type: Storage_location
-# Width: 80
-# Height: 40
-# Resolution (dpmm): 8
-# Storage Location BoxWidth: 240
-# Name Rows: 1
-# Number of parts: 3
 ^XA
-~TA000
+~TA100
 ~JSN
 ^LT0
-^MNW
+^MNA
 ^MTD
 ^PON
 ^PMN
@@ -18,23 +10,20 @@
 ^JMA
 ^PR3,3
 ~SD10
-^JUS
 ^LRN
 ^CI27
 ^PA0,1,1,0
 ^MMT
-^PW550
-^LL200
-^LS0
+^PW630
+^JUS
 
 ^FX (Caja)
-^FO0,10^GB400,200,3^FS
-^FT15,130^BQN,2,3
-^FH\^FDLA,http://192.168.1.87:8080/en/store_location/5/parts^FS
-^FT113,60^A0N,30,30^FB267,1,10,L^FH\^CI28^FDLDOs 5V^FS^CI27
+^FO0,10^GB464,120,3^FS
+^FT25,110^BQN,2,3
+^FH\^FDLA,http://192.168.1.87:8080/en/part/69#part_lots^FS
+^FT140,50^A0N,30,30^FH\^CI28^FDDYNAMIXEL AX-12A^FS^CI27
 
-^FT122,100^A0N,20,20^FH\^CI28^FD- MC7805ACT^FS^CI27
-^FT122,130^A0N,20,20^FH\^CI28^FD- MC7805CT^FS^CI27
-^FT122,160^A0N,20,20^FH\^CI28^FD- L7805CV^FS^CI27
+^FT140,80^A0N,20,20^FB300,2,5,L^FH\^CI28^FDServomotores y motores de CA, CC AX-12A^FS^CI27
+
 
 ^XZ

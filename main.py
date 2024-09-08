@@ -18,12 +18,22 @@ import os
 import LabelTypeFunctions
 import time
 
+label_x = 80
+labe_y = 40
+drawer_x = 40  # 50
+drawer_y = 25  # 25
+
+drawer_x_2 = 58  # 50
+drawer_y_2 = 15  # 25
 
 tcp_printer = []
+lines = []
 
 """This function is in charge of reading the CMD input and detecting if the user is using any special keyword
 such as SETTINGS or HELP
 """
+
+
 def CMD_Read(text):
     data = input(text)
     global valid_input
@@ -67,7 +77,6 @@ def CMD_Read(text):
 
                 case _:
                     return data
-
 
         case "Help" | "help":
             print("Help")
@@ -128,7 +137,7 @@ if __name__ == '__main__':
         # Now we can use the index to select the desired template
         index = CMD_Read("Select which template to use (1 - " + str(len(txt_files)) + "):")
         # index = input("Select which template to use (1 - " + str(len(txt_files)) + "):")
-        if index.isnumeric() == 1:  # T esting if is a numeric value or a file name
+        if index.isnumeric() == 1:  #T esting if is a numeric value or a file name
             file_name = txt_files[int(index) - 1]  # Assign filename
             print("Perfect")
         else:
@@ -138,30 +147,23 @@ if __name__ == '__main__':
             # Ideally here must be evaluated if the user had typed the tempalte name instead of the number.
             # Right now is not implemented
 
-        """Search metadata on the desired template"""
 
-        # First the template is copy into a file called WorkingFile
-        # Now is easier to work with the file withou erasing/ modifying the template
-        shutil.copy('Templates/' + file_name, 'Templates/WorkingFile/WorkingFile.txt')
-        f = open("Templates/WorkingFile/WorkingFile.txt", "r")
-        i = 0
-        text = f.readlines()   # Read the text in lines
-        f.close()
-        while text[i][0] == "#":    # If metadata "#" is present on the line evaluated we can continue searching info
-            i = i + 1
-            if 'Label Type:' in text[i]:        # First label type is searched
-                if 'Storage_location' in text[i]:   # If found, read which label type is
-                    label = "Storage_location"
-                    print("Label type storage selected")
-            if 'Storage Location BoxWidth:' in text[i]: # Read data
-                box = int(text[i][28:])
-            if 'Number of parts:' in text[i]:
-                nParts = int(text[i][18:])
+        """Read metadata template fields and erase them from working file"""
 
-        if label == "Storage_location": # Evaluate the label type, this should be a switch case statement
-            LabelTemplate.StorageLabel(nParts, box)
+        metadata = LabelTemplate.search_label_metadata(file_name)
+
+        # Evaluate the label type
+        match metadata[0]:
+            case "Storage_location":
+                LabelTemplate.StorageLabel(metadata[2], metadata[1])
+            case "Part":
+                LabelTemplate.Part_Label()
+            case _:
+                None
+
 
         """Plot label using labelary API"""
+
 
         # adjust print density (8dpmm), label width (4 inches), label height (6 inches), and label index (0) as necessary
         url = 'http://api.labelary.com/v1/printers/8dpmm/labels/3.14961x1.5748/0/'
@@ -169,6 +171,7 @@ if __name__ == '__main__':
         f = open("Templates/WorkingFile/WorkingFile.txt", "rb")
         files = {'file': f.read()}
         response = requests.post(url, files=files, stream=True)
+
 
         if response.status_code == 200:
             response.raw.decode_content = True
@@ -195,17 +198,21 @@ if __name__ == '__main__':
 
         """ Print the label on TCP printer"""  # Commented because I do not want to waste all my labels testing :)
 
+        a = input("Print?")
+        if a == "1":
+            print("Pritning")
+            mysocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            host = "192.168.1.68"
+            port = 9100
+            try:
+                print("Hi")
+                mysocket.connect((host, port))  # connecting to host
+                print("TRE")
+                f = open("Templates/WorkingFile/WorkingFile.txt", "rb")
+                a = f.read()
+                f.close()
+                mysocket.send(a)  # using bytes
+                mysocket.close()  # closing connection
+            except:
+                print("Error with the connection")
 
-    """
-        mysocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        host = "192.168.1.68"
-        port = 9100
-        try:
-            mysocket.connect((host, port))  # connecting to host
-            f = open("WorkingFile.txt", "rb")
-            a = f.read()
-            mysocket.send(a)  # using bytes
-            mysocket.close()  # closing connection
-        except:
-            print("Error with the connection")
-    """

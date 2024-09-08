@@ -309,7 +309,7 @@ class smallPartDb():
         return r
 
     def lookupPart(self, name):
-        r = self.getParts().status_code
+        r = self.getParts()
         if r.status_code != 200:
             warnings.warn("lookupPart - getParts returned: " + str(r.status_code))
             return None
@@ -321,6 +321,20 @@ class smallPartDb():
         if partId == None:
             warnings.warn("lookupPart - no part found for >" + name + "<")
         return partId
+
+    def lookupStorage(self, name):
+        r = self.getStore_Location()
+        if r.status_code != 200:
+            warnings.warn("lookupFootprint - getFootprints returned: " + str(r.status_code))
+            return None
+        id = None
+        if self.storage_location is not None and type(name) == str:
+            for p in self.storage_location:
+                if p['name'] == name:
+                    id = str(p['id'])
+        if id == None:
+            warnings.warn("no storage found for >" + name + "<")
+        return id
 
     def writePart(self, name=None, category=None, data=None, comment=None):
         categoryId = None
