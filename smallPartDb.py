@@ -625,6 +625,18 @@ class smallPartDb():
 
         return r, part
 
+    def getStorageByPart(self, id):
+        url = self.endpoint.partsId.format(id=id)
+        r = self.r.get(url)
+        if r.status_code == 200:
+            part = json.loads(r.text)
+            Storage_location = part['partLots'][0]['storage_location']['name']
+        else:
+            part = None
+            warnings.warn("unable to get part by id (" + str(id) + "/" + str(r.status_code) + ")")
+
+        return r, Storage_location
+
     def getAttachments(self):
         url = self.endpoint.attachments.format()
         p = 1

@@ -57,6 +57,7 @@ class LabelType():
         else:
             if status.status_code == 200:
                 i = 0
+                part_name = []
                 for c in partDb.partsbyStorage:
                     # print("id: " + str(c['id']) + ", name: " + c['name'])
                     i = i + 1
@@ -66,13 +67,18 @@ class LabelType():
                 print("Preview")
                 for c in range(0, nParts , 1):
                     part = partDb.partsbyStorage[c]['name']
-                    part_name.append(part)
+                    part_name.append("- " + part)
             else:
                 print("This label requires  " + str(nParts) + " parts, specify the number pls:")
 
                 for c in range(0, nParts, 1):
                     partNumber = int(input("Part_" + str(c + 1) + ": "))
-                    part_name.append(partDb.partsbyStorage[partNumber]['name'])
+                    if partNumber != 0:
+                        part_name.append("- " + partDb.partsbyStorage[partNumber - 1]['name'])
+                    else:
+                        for d in range(c, nParts, 1):
+                            part_name.append("")
+                        break
 
             font = ImageFont.truetype("arial.ttf", size=30, encoding="unic")
             size = font.getlength(storage)
@@ -114,6 +120,7 @@ class LabelType():
 
 
             maximum = 0
+            oversize_flag = False
             for c in range(0, nParts, 1):
                 # print(c)
                 string = "{PART_" + str(c + 1) + "}"
@@ -121,9 +128,8 @@ class LabelType():
                 self.search_and_replace("Templates/WorkingFile/WorkingFile.txt", string, str(part_name[c]))
 
                 font2 = ImageFont.truetype("arial.ttf", size=23, encoding="unic")
-                size_storage = font2.getlength("- " + part_name[c])
+                size_storage = font2.getlength(part_name[c])
                 max_length = 122 + size_storage
-                oversize_flag = False
                 if max_length > coordenada_rx:
                     oversize_flag = True
                     if size_storage > maximum:
@@ -157,6 +163,21 @@ class LabelType():
                     print(part_n)
                     print(part_description)
 
+            junk, storage_location = partDb.getStorageByPart(id)
+            if storage_location == "Gavetas":
+                QR_Y = 110
+                PART_NAME_Y = 50
+                DESCRIPTION_Y = 80
+                drawer_x_2 = 58  # 58
+                drawer_y_2 = 15  # 15
+            else:
+                QR_Y = 120
+                PART_NAME_Y = 60
+                DESCRIPTION_Y = 90
+                drawer_x_2 = 45  # 58
+                drawer_y_2 = 20  # 15
+
+
             font = ImageFont.truetype("arial.ttf", size=30, encoding="unic")
             size = font.getlength(part_n)
             fontSize = 30
@@ -168,12 +189,17 @@ class LabelType():
                 fontSize = (coordenada_rx-140) * 30 / size
             url_QR = "http://" + partDb.host + "/en/part/" + str(id) + "#part_lots"
 
+            self.search_and_replace("Templates/WorkingFile/WorkingFile.txt", "{QR_Y}", str(QR_Y))
+            self.search_and_replace("Templates/WorkingFile/WorkingFile.txt", "{PART_NAME_Y}", str(PART_NAME_Y))
+            self.search_and_replace("Templates/WorkingFile/WorkingFile.txt", "{DESCRIPTION_Y}", str(DESCRIPTION_Y))
+
 
             self.search_and_replace("Templates/WorkingFile/WorkingFile.txt", "{RECTANGLE_X}", str(pxmm * drawer_x_2))
             self.search_and_replace("Templates/WorkingFile/WorkingFile.txt", "{RECTANGLE_Y}", str(pxmm * drawer_y_2))
             self.search_and_replace("Templates/WorkingFile/WorkingFile.txt", "{PRINTER_DARKNESS}", "10")
             self.search_and_replace("Templates/WorkingFile/WorkingFile.txt", "{PART_NAME_SIZE}", str(fontSize))
             self.search_and_replace("Templates/WorkingFile/WorkingFile.txt", "{PART_DESCRIPTION_SIZE}", str(20))
+            self.search_and_replace("Templates/WorkingFile/WorkingFile.txt", "{PART_DESCRIPTION_BOX}", str(coordenada_rx-140-10))
             self.search_and_replace("Templates/WorkingFile/WorkingFile.txt", "{PART_QRCODE}", url_QR)
             self.search_and_replace("Templates/WorkingFile/WorkingFile.txt", "{PART_NAME}", str(part_n))
             self.search_and_replace("Templates/WorkingFile/WorkingFile.txt", "{PART_DESCRIPTION}", str(part_description))

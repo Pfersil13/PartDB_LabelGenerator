@@ -20,11 +20,12 @@ import time
 
 label_x = 80
 labe_y = 40
-drawer_x = 40  # 50
+
+drawer_x = 50  # 50
 drawer_y = 25  # 25
 
-drawer_x_2 = 58  # 50
-drawer_y_2 = 15  # 25
+drawer_x_2 = 45  # 58
+drawer_y_2 = 20  # 15
 
 tcp_printer = []
 lines = []
