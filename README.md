@@ -36,4 +36,5 @@ Might be a little annoying to organize  each drawer on PartDb but the creation o
  - Imoprove label Preview
  - Improve settings option
  - Add detection of "typos" errors
+ - Better explanation on how to use the script
    
